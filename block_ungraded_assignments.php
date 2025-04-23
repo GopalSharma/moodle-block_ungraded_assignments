@@ -20,8 +20,6 @@ class block_ungraded_assignments extends block_base {
         $this->content->footer = '';
 
         $context = new stdClass();
-        //$context->allassiglist = $this->get_ungraded_assignments();
-        //$context->allquizlist = $this->get_ungraded_quizes();
         $context->allactivities = $this->get_ungraded_activities();
 
 
@@ -63,7 +61,6 @@ class block_ungraded_assignments extends block_base {
         $params = ['userid' => $USER->id];
         $assignments = $DB->get_records_sql($sql, $params);
 
-        //$allactivities = array();
         foreach($assignments as $assignment) {
             list ($course, $cm) = get_course_and_cm_from_cmid($assignment->cmid, 'assign');
             $context = context_module::instance($cm->id);
@@ -105,7 +102,7 @@ class block_ungraded_assignments extends block_base {
     protected function get_ungraded_quizes(&$allactivities) {
         global $CFG, $DB, $USER;
 
-        $sql = "SELECT qa.id, q.name, c.fullname, cm.id as cmid, c.id as courseid
+        $sql = "SELECT distinct q.id, q.name, c.fullname, cm.id as cmid, c.id as courseid
                     FROM {quiz_attempts} qa
                     JOIN {quiz} q ON qa.quiz = q.id
                     JOIN {course_modules} cm ON cm.instance = q.id AND cm.deletioninprogress = 0 AND cm.visible = 1
@@ -116,7 +113,6 @@ class block_ungraded_assignments extends block_base {
 
         $quizes = $DB->get_records_sql($sql);
 
-        //$allquizlist = array();
         foreach($quizes as $quiz) {
 
             $quiz->url = new moodle_url('/mod/quiz/report.php', ['id' => $quiz->cmid, 'mode' => 'grading']);

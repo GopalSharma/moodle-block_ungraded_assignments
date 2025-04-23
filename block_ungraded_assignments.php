@@ -20,7 +20,10 @@ class block_ungraded_assignments extends block_base {
         $this->content->footer = '';
 
         $context = new stdClass();
-        $context->allassiglist = $this->get_ungraded_assignments();
+        //$context->allassiglist = $this->get_ungraded_assignments();
+        //$context->allquizlist = $this->get_ungraded_quizes();
+        $context->allactivities = $this->get_ungraded_activities();
+
 
         $this->content->text = $OUTPUT->render_from_template('block_ungraded_assignments/assignment_listing', $context);
 
@@ -28,11 +31,22 @@ class block_ungraded_assignments extends block_base {
     }
 
     /**
+     * This function will get all ungraded activities which requires grading.
+     * 
+     * @return array List of ungraded activities.
+     */
+    protected function get_ungraded_activities() {
+        $allactivities = array();
+        $allassiglist = $this->get_ungraded_assignments($allactivities);
+        $allquizlist = $this->get_ungraded_quizes($allactivities);
+        return array_values($allactivities);
+    }
+    /**
      * This function will get all ungraded assignments which requires grading.
      * 
      * @return array List of ungraded assignments.
      */
-    protected function get_ungraded_assignments() {
+    protected function get_ungraded_assignments(&$allactivities) {
         global $CFG, $DB, $USER;
 
         require_once($CFG->dirroot . '/mod/assign/locallib.php');
@@ -49,7 +63,7 @@ class block_ungraded_assignments extends block_base {
         $params = ['userid' => $USER->id];
         $assignments = $DB->get_records_sql($sql, $params);
 
-        $allassiglist = array();
+        //$allactivities = array();
         foreach($assignments as $assignment) {
             list ($course, $cm) = get_course_and_cm_from_cmid($assignment->cmid, 'assign');
             $context = context_module::instance($cm->id);
@@ -70,15 +84,54 @@ class block_ungraded_assignments extends block_base {
             $assignment->name = format_string($assignment->name);
             $assignment->coursename = format_string($assignment->fullname);
 
-            if(!isset($allassiglist[$assignment->courseid])) {
-                $allassiglist[$assignment->courseid] = new stdClass();
-                $allassiglist[$assignment->courseid]->coursename = $assignment->coursename;
-                $allassiglist[$assignment->courseid]->assignments = array();
+            if(!isset($allactivities[$assignment->courseid])) {
+                $allactivities[$assignment->courseid] = new stdClass();
+                $allactivities[$assignment->courseid]->coursename = $assignment->coursename;
+                $allactivities[$assignment->courseid]->activities = array();
             }
 
-            $allassiglist[$assignment->courseid]->assignments[] = $assignment;
+            $allactivities[$assignment->courseid]->activities[] = $assignment;
         }
 
-        return array_values($allassiglist);
+        return array_values($allactivities);
+    }
+
+
+    /**
+     * This function will get all ungraded Quizes which requires grading.
+     * 
+     * @return array List of ungraded Quizes.
+     */
+    protected function get_ungraded_quizes(&$allactivities) {
+        global $CFG, $DB, $USER;
+
+        $sql = "SELECT qa.id, q.name, c.fullname, cm.id as cmid, c.id as courseid
+                    FROM {quiz_attempts} qa
+                    JOIN {quiz} q ON qa.quiz = q.id
+                    JOIN {course_modules} cm ON cm.instance = q.id AND cm.deletioninprogress = 0 AND cm.visible = 1
+                    JOIN {course} c ON c.id = cm.course
+                    JOIN {modules} m ON m.id = cm.module AND m.name = 'quiz'
+                    WHERE qa.state = 'finished'
+                    AND qa.sumgrades IS NULL";
+
+        $quizes = $DB->get_records_sql($sql);
+
+        //$allquizlist = array();
+        foreach($quizes as $quiz) {
+
+            $quiz->url = new moodle_url('/mod/quiz/report.php', ['id' => $quiz->cmid, 'mode' => 'grading']);
+            $quiz->name = format_string($quiz->name);
+            $quiz->coursename = format_string($quiz->fullname);
+
+            if(!isset($allactivities[$quiz->courseid])) {
+                $allactivities[$quiz->courseid] = new stdClass();
+                $allactivities[$quiz->courseid]->coursename = $quiz->coursename;
+                $allactivities[$quiz->courseid]->activities = array();
+            }
+
+            $allactivities[$quiz->courseid]->activities[] = $quiz;
+        }
+
+        return array_values($allactivities);
     }
 }

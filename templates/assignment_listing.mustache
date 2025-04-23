@@ -1,12 +1,12 @@
 <ul class="tree">
-    {{#allassiglist}}
+    {{#allactivities}}
     <li class="parent">
         <details open class="details">
             <summary class="bold">
                 <span class="px-1">{{{ coursename }}}</span>
             </summary>
             <ul class="nested-list">
-                {{#assignments}}
+                {{#activities}}
                 <li class="nested-item row w-100">
                     <span class="pl-3 col-8 my-auto">{{{ name }}}</span>
                     <span class="col-4 text-right">
@@ -15,12 +15,12 @@
                         </a>
                     </span>
                 </li>
-                {{/assignments}}
+                {{/activities}}
             </ul>
         </details>
     </li>
-    {{/allassiglist}}
-    {{^allassiglist}}
+    {{/allactivities}}
+    {{^allactivities}}
         {{#str}} no_ungraded, block_ungraded_assignments {{/str}}
-    {{/allassiglist}}
-</ul> 
+    {{/allactivities}}
+</ul>

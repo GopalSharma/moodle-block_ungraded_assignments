@@ -1,6 +1,6 @@
 ## List Ungraded Assignments Block Plugin
 
-The plugin lists all ungraded assignments and quizzes that require your attention, and clicking on any assignment will take you directly to the grading page. Once a learner submits an assignment, it will automatically appear on the Dashboard and disappear after you grade it.. To follow active development, see: https://github.com/GopalSharma/moodle-blocks_ungraded_assignments
+The plugin lists all ungraded assignments and quizzes that require your attention, and clicking on any assignment or quiz will take you directly to the grading page. Once a learner submits an assignment, it will automatically appear on the Dashboard and disappear after you grade it.. To follow active development, see: https://github.com/GopalSharma/moodle-blocks_ungraded_assignments
 
 ## Installation
 

@@ -1,4 +1,26 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Contains the class for the Ungraded Activities.
+ *
+ * @package    block_ungraded_assignments
+ * @copyright  2025 Gopal Sharma <gopalsharma66@gmail.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
 use tool_admin_presets\form\continue_form;
 defined('MOODLE_INTERNAL') || die();
@@ -22,7 +44,6 @@ class block_ungraded_assignments extends block_base {
         $context = new stdClass();
         $context->allactivities = $this->get_ungraded_activities();
 
-
         $this->content->text = $OUTPUT->render_from_template('block_ungraded_assignments/assignment_listing', $context);
 
         return $this->content;
@@ -30,7 +51,7 @@ class block_ungraded_assignments extends block_base {
 
     /**
      * This function will get all ungraded activities which requires grading.
-     * 
+     *
      * @return array List of ungraded activities.
      */
     protected function get_ungraded_activities() {
@@ -39,9 +60,10 @@ class block_ungraded_assignments extends block_base {
         $allquizlist = $this->get_ungraded_quizes($allactivities);
         return array_values($allactivities);
     }
+
     /**
      * This function will get all ungraded assignments which requires grading.
-     * 
+     *
      * @return array List of ungraded assignments.
      */
     protected function get_ungraded_assignments(&$allactivities) {
@@ -61,11 +83,11 @@ class block_ungraded_assignments extends block_base {
         $params = ['userid' => $USER->id];
         $assignments = $DB->get_records_sql($sql, $params);
 
-        foreach($assignments as $assignment) {
+        foreach ($assignments as $assignment) {
             list ($course, $cm) = get_course_and_cm_from_cmid($assignment->cmid, 'assign');
             $context = context_module::instance($cm->id);
 
-            if(require_capability('mod/assign:grade', $context)) {
+            if (require_capability('mod/assign:grade', $context)) {
                 continue;
             }
 
@@ -73,7 +95,7 @@ class block_ungraded_assignments extends block_base {
             $table = new assign_grading_table($assign, 0, ASSIGN_FILTER_REQUIRE_GRADING, 0, false);
             $userid = $table->get_column_data('userid');
 
-            if(empty($userid)) {
+            if (empty($userid)) {
                 continue;
             }
 
@@ -81,7 +103,8 @@ class block_ungraded_assignments extends block_base {
             $assignment->name = format_string($assignment->name);
             $assignment->coursename = format_string($assignment->fullname);
 
-            if(!isset($allactivities[$assignment->courseid])) {
+            if (!isset($allactivities[$assignment->courseid])) {
+
                 $allactivities[$assignment->courseid] = new stdClass();
                 $allactivities[$assignment->courseid]->coursename = $assignment->coursename;
                 $allactivities[$assignment->courseid]->activities = array();
@@ -96,7 +119,7 @@ class block_ungraded_assignments extends block_base {
 
     /**
      * This function will get all ungraded Quizes which requires grading.
-     * 
+     *
      * @return array List of ungraded Quizes.
      */
     protected function get_ungraded_quizes(&$allactivities) {
@@ -113,13 +136,12 @@ class block_ungraded_assignments extends block_base {
 
         $quizes = $DB->get_records_sql($sql);
 
-        foreach($quizes as $quiz) {
-
+        foreach ($quizes as $quiz) {
             $quiz->url = new moodle_url('/mod/quiz/report.php', ['id' => $quiz->cmid, 'mode' => 'grading']);
             $quiz->name = format_string($quiz->name);
             $quiz->coursename = format_string($quiz->fullname);
 
-            if(!isset($allactivities[$quiz->courseid])) {
+            if (!isset($allactivities[$quiz->courseid])) {
                 $allactivities[$quiz->courseid] = new stdClass();
                 $allactivities[$quiz->courseid]->coursename = $quiz->coursename;
                 $allactivities[$quiz->courseid]->activities = array();

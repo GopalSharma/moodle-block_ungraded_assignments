@@ -6,7 +6,7 @@
     --c-white: #fff;
     --c-zsh-place-fontcolor: #878787;
     --c-zf-hover: #f6f8fb;
-    --c-highlight:#448FF7; 
+    --c-highlight:#448FF7;
     --c-primary-color:#272F43;
     --c-top-bar-color:#262F45;
     --c-cta:#1AB394;
@@ -60,7 +60,7 @@
     padding-block: 4px;
 }
 
-.block_ungraded_assignments .tree .parent::before, 
+.block_ungraded_assignments .tree .parent::before,
 .block_ungraded_assignments .tree .parent::after {
   content: '';
   position: absolute;
@@ -168,7 +168,7 @@
     background-color: #ced4da;
 }
 
-.block_ungraded_assignments .tree .nested-item::before, 
+.block_ungraded_assignments .tree .nested-item::before,
 .block_ungraded_assignments .tree .nested-item::after {
   content: '';
   position: absolute;
@@ -220,5 +220,4 @@
 .block_ungraded_assignments .tree-title:hover {
   color: var(--c-keppel);
   cursor: pointer;
-  
 }

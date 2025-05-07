@@ -17,17 +17,17 @@
 /**
  * Contains the class for the Ungraded Activities.
  *
- * @package    block_ungraded_activities
+ * @package    block_ungraded_assignments
  * @copyright  2025 Gopal Sharma <gopalsharma66@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace block_ungraded_activities\privacy;
+namespace block_ungraded_assignments\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Privacy Subsystem for block_ungraded_activities implementing null_provider.
+ * Privacy Subsystem for block_ungraded_assignments implementing null_provider.
  *
  * @copyright  2018 Gopal Sharma <gopalsharma66@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

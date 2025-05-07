@@ -17,15 +17,15 @@
 /**
  * Version details for the ungraded activities block.
  *
- * @package    block_ungraded_activities
+ * @package    block_ungraded_assignments
  * @copyright  2025 Abhishek Karadbhuje <abhishek.karadbhuje@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'block_ungraded_activities';
-$plugin->version = 2025050400;
+$plugin->component = 'block_ungraded_assignments';
+$plugin->version = 2025050701;
 $plugin->requires = 2021051700;
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = '2.0';
+$plugin->release = '3.0';

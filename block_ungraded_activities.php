@@ -18,11 +18,10 @@
  * Contains the class for the Ungraded Activities.
  *
  * @package    block_ungraded_activities
- * @copyright  2025 Gopal Sharma <gopalsharma66@gmail.com>
+ * @copyright  2025 Abhishek Karadbhuje <abhishek.karadbhuje@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use tool_admin_presets\form\continue_form;
 defined('MOODLE_INTERNAL') || die();
 
 class block_ungraded_activities extends block_base {
@@ -31,7 +30,7 @@ class block_ungraded_activities extends block_base {
     }
 
     public function get_content() {
-        global $DB, $USER, $OUTPUT;
+        global $OUTPUT;
 
         if ($this->content !== null) {
             return $this->content;
@@ -56,8 +55,8 @@ class block_ungraded_activities extends block_base {
      */
     protected function get_ungraded_activities() {
         $allactivities = array();
-        $allassiglist = $this->get_ungraded_assignments($allactivities);
-        $allquizlist = $this->get_ungraded_quizes($allactivities);
+        $this->get_ungraded_assignments($allactivities);
+        $this->get_ungraded_quizes($allactivities);
         return array_values($allactivities);
     }
 
@@ -123,7 +122,7 @@ class block_ungraded_activities extends block_base {
      * @return array List of ungraded Quizes.
      */
     protected function get_ungraded_quizes(&$allactivities) {
-        global $CFG, $DB, $USER;
+        global $DB;
 
         $sql = "SELECT distinct q.id, q.name, c.fullname, cm.id as cmid, c.id as courseid
                     FROM {quiz_attempts} qa

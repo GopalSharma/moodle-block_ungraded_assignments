@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details for the timeline block.
+ * Version details for the ungraded activities block.
  *
- * @package    block_timeline
- * @copyright  2018 Ryan Wyllie <ryan@moodle.com>
+ * @package    block_ungraded_activities
+ * @copyright  2025 Abhishek Karadbhuje <abhishek.karadbhuje@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

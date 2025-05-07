@@ -43,7 +43,7 @@ class block_ungraded_activities extends block_base {
         $context = new stdClass();
         $context->allactivities = $this->get_ungraded_activities();
 
-        $this->content->text = $OUTPUT->render_from_template('block_ungraded_activities/assignment_listing', $context);
+        $this->content->text = $OUTPUT->render_from_template('block_ungraded_activities/activity_listing', $context);
 
         return $this->content;
     }
@@ -100,12 +100,11 @@ class block_ungraded_activities extends block_base {
 
             $assignment->url = new moodle_url('/mod/assign/view.php', ['id' => $assignment->cmid, 'action' => 'grader']);
             $assignment->name = format_string($assignment->name);
-            $assignment->coursename = format_string($assignment->fullname);
 
             if (!isset($allactivities[$assignment->courseid])) {
 
                 $allactivities[$assignment->courseid] = new stdClass();
-                $allactivities[$assignment->courseid]->coursename = $assignment->coursename;
+                $allactivities[$assignment->courseid]->coursename = format_string($assignment->fullname);
                 $allactivities[$assignment->courseid]->activities = array();
             }
 

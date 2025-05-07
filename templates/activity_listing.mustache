@@ -15,17 +15,19 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template block_timeline/course-item
+    @template ungraded_activities/activity_listing
 
     This template renders the each activities of a course which needs manual gradding.
 
     Example context (json):
     {
-        "id": 15,
-        "name": "Question name",
-        "fullname": "Course name",
-        "cmid": 20,
-        "courseid": 30
+        "allactivities": {
+            "coursename": "Course Name"
+            "activities": [{
+                "name": "Activity name",
+                "url": http://example.com/mod/assign/view.php?id=6&action=grader&userid=3
+            }]
+        ]
     }
 }}
 <ul class="tree">

@@ -17,7 +17,7 @@
 /**
  * Capabilities for the Ungraded Activities.
  *
- * @package    block_ungraded_assignments
+ * @package    block_ungraded_activities
  * @copyright  2025 Gopal Sharma <gopalsharma66@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = [
-    'block/ungraded_assignments:myaddinstance' => [
+    'block/ungraded_activities:myaddinstance' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => [
@@ -33,7 +33,7 @@ $capabilities = [
             'editingteacher' => CAP_ALLOW,
         ],
     ],
-    'block/ungraded_assignments:addinstance' => [
+    'block/ungraded_activities:addinstance' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_BLOCK,
         'archetypes' => [

@@ -17,7 +17,7 @@
 /**
  * Contains the class for the Ungraded Activities.
  *
- * @package    block_ungraded_assignments
+ * @package    block_ungraded_activities
  * @copyright  2025 Gopal Sharma <gopalsharma66@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -25,9 +25,9 @@
 use tool_admin_presets\form\continue_form;
 defined('MOODLE_INTERNAL') || die();
 
-class block_ungraded_assignments extends block_base {
+class block_ungraded_activities extends block_base {
     public function init() {
-        $this->title = get_string('ungraded_assignments', 'block_ungraded_assignments');
+        $this->title = get_string('ungraded_activities', 'block_ungraded_activities');
     }
 
     public function get_content() {
@@ -44,7 +44,7 @@ class block_ungraded_assignments extends block_base {
         $context = new stdClass();
         $context->allactivities = $this->get_ungraded_activities();
 
-        $this->content->text = $OUTPUT->render_from_template('block_ungraded_assignments/assignment_listing', $context);
+        $this->content->text = $OUTPUT->render_from_template('block_ungraded_activities/assignment_listing', $context);
 
         return $this->content;
     }

@@ -51,30 +51,30 @@
     --c-keppel: #36bc9e;
 }
 
-.block_ungraded_assignments ul li {
+.block_ungraded_activities ul li {
     list-style: none;
 }
 
-.block_ungraded_assignments .tree .parent {
+.block_ungraded_activities .tree .parent {
     position: relative;
     padding-block: 4px;
 }
 
-.block_ungraded_assignments .tree .parent::before,
-.block_ungraded_assignments .tree .parent::after {
+.block_ungraded_activities .tree .parent::before,
+.block_ungraded_activities .tree .parent::after {
   content: '';
   position: absolute;
 }
 
 
-.block_ungraded_assignments .tree .parent::before {
+.block_ungraded_activities .tree .parent::before {
   width: 18px;
   top: 13px;
   left: -18px;
   border-bottom: 1px dashed var(--c-gray-200);
 }
 
-.block_ungraded_assignments .tree .parent::after {
+.block_ungraded_activities .tree .parent::after {
   display: block;
   width: 0;
   top: 0;
@@ -85,27 +85,27 @@
 }
 
 
-.block_ungraded_assignments .tree .parent:last-child::after {
+.block_ungraded_activities .tree .parent:last-child::after {
   height: 5px;
   bottom: auto;
 }
 
-.block_ungraded_assignments .tree .parent::after {
+.block_ungraded_activities .tree .parent::after {
   height: 100%;
   top: 23px;
 }
 
-.block_ungraded_assignments .tree details[open] > .parent::before,
-.block_ungraded_assignments .tree details[open] > .nested-item::after {
+.block_ungraded_activities .tree details[open] > .parent::before,
+.block_ungraded_activities .tree details[open] > .nested-item::after {
   border-left-color: var(--c-drak-sea-green);
 }
 
-.block_ungraded_assignments .tree .parent.parent:last-child::after {
+.block_ungraded_activities .tree .parent.parent:last-child::after {
   content: none;
   bottom: auto;
 }
 
-.block_ungraded_assignments .tree details {
+.block_ungraded_activities .tree details {
   margin: 0 auto;
 }
 
@@ -113,13 +113,13 @@
   padding: 15px;
 }
 
-.block_ungraded_assignments .tree summary {
+.block_ungraded_activities .tree summary {
   display: block;
   position: relative;
   cursor: pointer;
 }
 
-.block_ungraded_assignments .tree summary::before {
+.block_ungraded_activities .tree summary::before {
   content: '+';
   position: absolute;
   top: 0;
@@ -135,14 +135,14 @@
   line-height: 13px;
 }
 
-.block_ungraded_assignments .tree details[open] > summary::before {
+.block_ungraded_activities .tree details[open] > summary::before {
   content: '-';
   border: 1px solid var(--c-drak-sea-green);
   color: var(--c-drak-sea-green);
 }
 
 
-.block_ungraded_assignments .tree details[open] > .tree.parent::after {
+.block_ungraded_activities .tree details[open] > .tree.parent::after {
   display: block;
   width: 0;
   top: 0;
@@ -153,37 +153,37 @@
 }
 
 
-.block_ungraded_assignments .tree .nested-list {
+.block_ungraded_activities .tree .nested-list {
   padding: 5px 0 0 45px;
 }
 
-.block_ungraded_assignments .tree .nested-item {
+.block_ungraded_activities .tree .nested-item {
   position: relative;
   padding: 5px 0 5px 0;
   margin-top: 0;
 }
 
-.block_ungraded_assignments .tree .nested-item:hover {
+.block_ungraded_activities .tree .nested-item:hover {
     border-color: #ced4da;
     background-color: #ced4da;
 }
 
-.block_ungraded_assignments .tree .nested-item::before,
-.block_ungraded_assignments .tree .nested-item::after {
+.block_ungraded_activities .tree .nested-item::before,
+.block_ungraded_activities .tree .nested-item::after {
   content: '';
   position: absolute;
   left: -17px;
 }
 
 
-.block_ungraded_assignments .tree .nested-item::before {
+.block_ungraded_activities .tree .nested-item::before {
   width: 28px;
   top: 22px;
   left: -27px;
   border-bottom: 1px dashed var(--c-gray-200);
 }
 
-.block_ungraded_assignments .tree .nested-item::after {
+.block_ungraded_activities .tree .nested-item::after {
   display: block;
   width: 0;
   top: 0;
@@ -194,13 +194,13 @@
   bottom: 0;
 }
 
-.block_ungraded_assignments .tree .nested-item:last-child::after {
+.block_ungraded_activities .tree .nested-item:last-child::after {
   top: 0px;
   height: 22px ;
   bottom: auto;
 }
 
-.block_ungraded_assignments .tree .label {
+.block_ungraded_activities .tree .label {
   display: inline-block;
   font-size: 10px;
   padding-inline: 3px;
@@ -209,15 +209,15 @@
   border: 1px solid var(--c-gray-100);
 }
 
-.block_ungraded_assignments .tree > .parent:last-child {
+.block_ungraded_activities .tree > .parent:last-child {
   padding-bottom: 0;
 }
 
-.block_ungraded_assignments .tree-title {
+.block_ungraded_activities .tree-title {
   font-size: 12px;
 }
 
-.block_ungraded_assignments .tree-title:hover {
+.block_ungraded_activities .tree-title:hover {
   color: var(--c-keppel);
   cursor: pointer;
 }

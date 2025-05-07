@@ -17,13 +17,13 @@
 /**
  * Lang strings for the Ungraded Activities.
  *
- * @package    block_ungraded_assignments
+ * @package    block_ungraded_activities
  * @copyright  2025 Gopal Sharma <gopalsharma66@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Ungraded Activities(Assingment/Quiz)';
-$string['ungraded_assignments'] = 'Ungraded Assingments/Quizes';
-$string['no_ungraded'] = 'No ungraded aAssingments/quizes found.';
-$string['ungraded_assignments:addinstance'] = 'Add a new Ungraded Activities(Assingment/Quiz) block';
-$string['ungraded_assignments:myaddinstance'] = 'Add a new Ungraded Activities(Assingment/Quiz) block to My Moodle';
+$string['pluginname'] = 'Ungraded Activities';
+$string['ungraded_activities'] = 'Ungraded Activities';
+$string['no_ungraded'] = 'No ungraded activities found.';
+$string['ungraded_activities:addinstance'] = 'Add a new Ungraded Activities block';
+$string['ungraded_activities:myaddinstance'] = 'Add a new Ungraded Activities block to My Moodle';

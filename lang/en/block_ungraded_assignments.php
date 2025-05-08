@@ -27,3 +27,4 @@ $string['ungraded_activities'] = 'Ungraded Activities';
 $string['no_ungraded'] = 'No ungraded activities found.';
 $string['ungraded_assignments:addinstance'] = 'Add a new Ungraded Activities block';
 $string['ungraded_assignments:myaddinstance'] = 'Add a new Ungraded Activities block to My Moodle';
+$string['privacy:metadata'] = 'The Ungraded Activities block plugin does not store any personal data.';

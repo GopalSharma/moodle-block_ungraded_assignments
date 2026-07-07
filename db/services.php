@@ -15,17 +15,22 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details for the ungraded activities block.
+ * External service definitions for block_ungraded_assignments.
  *
  * @package    block_ungraded_assignments
- * @copyright  2025 Abhishek Karadbhuje <abhishek.karadbhuje@gmail.com>
+ * @copyright  2026
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2026070700;
-$plugin->requires = 2021051700;
-$plugin->maturity = MATURITY_STABLE;
-$plugin->component = 'block_ungraded_assignments';
-$plugin->release = '5.0.2';
+$functions = [
+    'block_ungraded_assignments_get_ungraded_assignments' => [
+        'classname' => 'block_ungraded_assignments\\external',
+        'methodname' => 'get_ungraded_assignments',
+        'classpath' => '',
+        'description' => 'Get ungraded assignments with pagination.',
+        'type' => 'read',
+        'ajax' => true,
+    ],
+];

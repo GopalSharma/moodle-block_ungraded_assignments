@@ -15,44 +15,128 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template ungraded_activities/activity_listing
+    @template block_ungraded_assignments/activity_listing
 
-    This template renders the each activities of a course which needs manual gradding.
-
-    Example context (json):
-    {
-        "allactivities": {
-            "coursename": "Course Name"
-            "activities": [{
-                "name": "Activity name",
-                "url": http://example.com/mod/assign/view.php?id=6&action=grader&userid=3
-            }]
-        ]
-    }
+    This template renders paginated ungraded assignments.
 }}
-<ul class="tree">
-    {{#allactivities}}
-    <li class="parent">
-        <details open class="details">
-            <summary class="bold">
-                <span class="px-1">{{{ coursename }}}</span>
-            </summary>
-            <ul class="nested-list">
-                {{#activities}}
-                <li class="nested-item row w-100">
-                    <span class="pl-3 col-8 my-auto">{{{ name }}}</span>
-                    <span class="col-4 text-right">
-                        <a href="{{{url}}}" class="btn btn-primary btn-sm">
-                            {{#str}} gradeverb, core {{/str}}
-                        </a>
-                    </span>
-                </li>
-                {{/activities}}
-            </ul>
-        </details>
-    </li>
-    {{/allactivities}}
-    {{^allactivities}}
-        {{#str}} no_ungraded, block_ungraded_assignments {{/str}}
-    {{/allactivities}}
-</ul>
+<div class="ungraded-assignments-pagination" data-region="ungraded-assignments-pagination" data-page="{{page}}" data-blockid="{{blockid}}">
+    <ul class="tree" data-region="assignments-list">
+        {{#activities}}
+        <li class="parent">
+            <details open class="details">
+                <summary class="bold">
+                    <span class="px-1">{{{ coursename }}}</span>
+                </summary>
+                <ul class="nested-list">
+                    <li class="nested-item row w-100">
+                        <span class="pl-3 col-8 my-auto">
+                            <span class="badge badge-light mr-1">{{activitytype}}</span>
+                            {{{ name }}}
+                        </span>
+                        <span class="col-4 text-right">
+                            <a href="{{{url}}}" class="btn btn-primary btn-sm">
+                                {{#str}} gradeverb, core {{/str}}
+                            </a>
+                        </span>
+                    </li>
+                </ul>
+            </details>
+        </li>
+        {{/activities}}
+        {{^activities}}
+        <li class="parent no-ungraded-message">{{#str}} no_ungraded, block_ungraded_assignments {{/str}}</li>
+        {{/activities}}
+    </ul>
+
+    <div class="d-flex justify-content-between align-items-center mt-2" data-region="pagination-actions">
+        <button type="button" class="btn btn-secondary btn-sm" data-action="previous" {{^hasprev}}disabled{{/hasprev}}>
+            {{#str}} previous, block_ungraded_assignments {{/str}}
+        </button>
+        <span class="small text-muted" data-region="page-indicator">{{#str}} page, block_ungraded_assignments {{/str}} {{page}}</span>
+        <button type="button" class="btn btn-secondary btn-sm" data-action="next" {{^hasnext}}disabled{{/hasnext}}>
+            {{#str}} next, block_ungraded_assignments {{/str}}
+        </button>
+    </div>
+</div>
+
+{{#js}}
+require(['core/ajax', 'core/notification'], function(Ajax, Notification) {
+    var rootSelector = '[data-region="ungraded-assignments-pagination"][data-blockid="{{blockid}}"]';
+    var root = document.querySelector(rootSelector);
+    if (!root || root.dataset.initialized === '1') {
+        return;
+    }
+    root.dataset.initialized = '1';
+
+    var list = root.querySelector('[data-region="assignments-list"]');
+    var pageIndicator = root.querySelector('[data-region="page-indicator"]');
+    var previousButton = root.querySelector('[data-action="previous"]');
+    var nextButton = root.querySelector('[data-action="next"]');
+
+    var escapeHtml = function(value) {
+        return String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    };
+
+    var renderAssignments = function(response) {
+        if (!response.activities || response.activities.length === 0) {
+            list.innerHTML = '<li class="parent no-ungraded-message">{{#str}} no_ungraded, block_ungraded_assignments {{/str}}</li>';
+        } else {
+            var item = response.activities[0];
+            list.innerHTML = '<li class="parent">' +
+                '<details open class="details">' +
+                '<summary class="bold"><span class="px-1">' + escapeHtml(item.coursename) + '</span></summary>' +
+                '<ul class="nested-list">' +
+                '<li class="nested-item row w-100">' +
+                '<span class="pl-3 col-8 my-auto"><span class="badge badge-light mr-1">' + escapeHtml(item.activitytype) + '</span>' + escapeHtml(item.name) + '</span>' +
+                '<span class="col-4 text-right">' +
+                '<a href="' + escapeHtml(item.url) + '" class="btn btn-primary btn-sm">{{#str}} gradeverb, core {{/str}}</a>' +
+                '</span>' +
+                '</li>' +
+                '</ul>' +
+                '</details>' +
+                '</li>';
+        }
+
+        pageIndicator.textContent = '{{#str}} page, block_ungraded_assignments {{/str}} ' + response.page;
+        previousButton.disabled = !response.hasprev;
+        nextButton.disabled = !response.hasnext;
+        root.dataset.page = String(response.page);
+    };
+
+    var fetchPage = function(page) {
+        previousButton.disabled = true;
+        nextButton.disabled = true;
+
+        Ajax.call([{
+            methodname: 'block_ungraded_assignments_get_ungraded_assignments',
+            args: {
+                page: page
+            }
+        }])[0]
+            .then(function(response) {
+                renderAssignments(response);
+                return null;
+            })
+            .catch(function(error) {
+                Notification.exception(error);
+            });
+    };
+
+    previousButton.addEventListener('click', function() {
+        var currentPage = Number(root.dataset.page || '1');
+        if (currentPage > 1) {
+            fetchPage(currentPage - 1);
+        }
+    });
+
+    nextButton.addEventListener('click', function() {
+        var currentPage = Number(root.dataset.page || '1');
+        fetchPage(currentPage + 1);
+    });
+});
+{{/js}}

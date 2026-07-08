@@ -58,7 +58,7 @@ class external extends \external_api {
 
         self::validate_context(\context_system::instance());
 
-        return \block_ungraded_assignments\local\service::get_paginated_ungraded_assignments($params['page'], 1);
+        return \block_ungraded_assignments\local\service::get_paginated_ungraded_assignments($params['page']);
     }
 
     /**

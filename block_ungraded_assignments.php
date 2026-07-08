@@ -29,6 +29,15 @@ class block_ungraded_assignments extends block_base {
         $this->title = get_string('ungraded_activities', 'block_ungraded_assignments');
     }
 
+    /**
+     * Expose site-level block configuration.
+     *
+     * @return bool
+     */
+    public function has_config() {
+        return true;
+    }
+
     public function get_content() {
         global $OUTPUT;
 
@@ -40,7 +49,7 @@ class block_ungraded_assignments extends block_base {
         $this->content->text = '';
         $this->content->footer = '';
 
-        $assignmentdata = \block_ungraded_assignments\local\service::get_paginated_ungraded_assignments(1, 1);
+        $assignmentdata = \block_ungraded_assignments\local\service::get_paginated_ungraded_assignments(1);
         $context = new stdClass();
         $context->activities = $assignmentdata['activities'];
         $context->hasnext = $assignmentdata['hasnext'];

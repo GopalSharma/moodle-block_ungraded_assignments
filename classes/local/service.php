@@ -31,19 +31,29 @@ defined('MOODLE_INTERNAL') || die();
  */
 class service {
     /**
+     * Get configured records per page with a safe fallback.
+     *
+     * @return int
+     */
+    public static function get_records_per_page(): int {
+        $configured = (int)get_config('block_ungraded_assignments', 'recordsperpage');
+        return $configured > 0 ? $configured : 10;
+    }
+
+    /**
      * Returns paginated ungraded activities for the current user.
      *
      * @param int $page
      * @param int $perpage
      * @return array
      */
-    public static function get_paginated_ungraded_assignments(int $page = 1, int $perpage = 1): array {
+    public static function get_paginated_ungraded_assignments(int $page = 1, int $perpage = 0): array {
         global $CFG, $DB;
 
         require_once($CFG->dirroot . '/mod/assign/locallib.php');
 
         $page = max(1, $page);
-        $perpage = max(1, $perpage);
+        $perpage = $perpage > 0 ? $perpage : self::get_records_per_page();
         $offset = ($page - 1) * $perpage;
         $limit = ($page * $perpage) + 1;
 

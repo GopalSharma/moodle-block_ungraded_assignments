@@ -86,20 +86,23 @@ require(['core/ajax', 'core/notification'], function(Ajax, Notification) {
         if (!response.activities || response.activities.length === 0) {
             list.innerHTML = '<li class="parent no-ungraded-message">{{#str}} no_ungraded, block_ungraded_assignments {{/str}}</li>';
         } else {
-            var item = response.activities[0];
-            list.innerHTML = '<li class="parent">' +
-                '<details open class="details">' +
-                '<summary class="bold"><span class="px-1">' + escapeHtml(item.coursename) + '</span></summary>' +
-                '<ul class="nested-list">' +
-                '<li class="nested-item row w-100">' +
-                '<span class="pl-3 col-8 my-auto"><span class="badge badge-light mr-1">' + escapeHtml(item.activitytype) + '</span>' + escapeHtml(item.name) + '</span>' +
-                '<span class="col-4 text-right">' +
-                '<a href="' + escapeHtml(item.url) + '" class="btn btn-primary btn-sm">{{#str}} gradeverb, core {{/str}}</a>' +
-                '</span>' +
-                '</li>' +
-                '</ul>' +
-                '</details>' +
-                '</li>';
+            var html = '';
+            response.activities.forEach(function(item) {
+                html += '<li class="parent">' +
+                    '<details open class="details">' +
+                    '<summary class="bold"><span class="px-1">' + escapeHtml(item.coursename) + '</span></summary>' +
+                    '<ul class="nested-list">' +
+                    '<li class="nested-item row w-100">' +
+                    '<span class="pl-3 col-8 my-auto"><span class="badge badge-light mr-1">' + escapeHtml(item.activitytype) + '</span>' + escapeHtml(item.name) + '</span>' +
+                    '<span class="col-4 text-right">' +
+                    '<a href="' + escapeHtml(item.url) + '" class="btn btn-primary btn-sm">{{#str}} gradeverb, core {{/str}}</a>' +
+                    '</span>' +
+                    '</li>' +
+                    '</ul>' +
+                    '</details>' +
+                    '</li>';
+            });
+            list.innerHTML = html;
         }
 
         pageIndicator.textContent = '{{#str}} page, block_ungraded_assignments {{/str}} ' + response.page;

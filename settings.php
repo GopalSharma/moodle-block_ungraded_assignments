@@ -15,17 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details for the ungraded activities block.
+ * Settings for block_ungraded_assignments.
  *
  * @package    block_ungraded_assignments
- * @copyright  2025 Abhishek Karadbhuje <abhishek.karadbhuje@gmail.com>
+ * @copyright  2026
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2026070701;
-$plugin->requires = 2021051700;
-$plugin->maturity = MATURITY_STABLE;
-$plugin->component = 'block_ungraded_assignments';
-$plugin->release = '5.0.3';
+if ($ADMIN->fulltree) {
+    $settings->add(new admin_setting_configtext(
+        'block_ungraded_assignments/recordsperpage',
+        get_string('recordsperpage', 'block_ungraded_assignments'),
+        get_string('recordsperpage_desc', 'block_ungraded_assignments'),
+        10,
+        PARAM_INT
+    ));
+}

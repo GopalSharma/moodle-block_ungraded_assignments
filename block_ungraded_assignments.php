@@ -49,6 +49,11 @@ class block_ungraded_assignments extends block_base {
         $this->content->text = '';
         $this->content->footer = '';
 
+        // Hide the block for users who cannot grade any assignments (e.g. students).
+        if (!$this->user_can_grade_anywhere()) {
+            return $this->content;
+        }
+
         $assignmentdata = \block_ungraded_assignments\local\service::get_paginated_ungraded_assignments(1);
         $context = new stdClass();
         $context->activities = $assignmentdata['activities'];
@@ -60,5 +65,27 @@ class block_ungraded_assignments extends block_base {
         $this->content->text = $OUTPUT->render_from_template('block_ungraded_assignments/activity_listing', $context);
 
         return $this->content;
+    }
+
+    /**
+     * Check whether the current user has the grading capability in at least one course.
+     *
+     * @return bool
+     */
+    private function user_can_grade_anywhere(): bool {
+        // Site admins can always grade.
+        if (is_siteadmin()) {
+            return true;
+        }
+
+        $courses = enrol_get_my_courses('id', 'id');
+        foreach ($courses as $course) {
+            $coursecontext = \context_course::instance($course->id);
+            if (has_capability('mod/assign:grade', $coursecontext)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

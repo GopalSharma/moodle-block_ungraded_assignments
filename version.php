@@ -24,8 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2026071301;
+$plugin->version = 2026071302;
 $plugin->requires = 2021051700;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->component = 'block_ungraded_assignments';
-$plugin->release = '5.2';
+$plugin->release = '5.2.1';

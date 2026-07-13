@@ -71,29 +71,34 @@ class service {
         $allactivities = [];
 
         foreach ($assignments as $assignment) {
-            list($course, $cm) = get_course_and_cm_from_cmid($assignment->cmid, 'assign');
-            $context = \context_module::instance($cm->id);
+            try {
+                list($course, $cm) = get_course_and_cm_from_cmid($assignment->cmid, 'assign');
+                $context = \context_module::instance($cm->id);
 
-            if (!has_capability('mod/assign:grade', $context)) {
+                if (!has_capability('mod/assign:grade', $context)) {
+                    continue;
+                }
+
+                $assign = new \assign($context, $cm, $course);
+                $table = new \assign_grading_table($assign, 0, ASSIGN_FILTER_REQUIRE_GRADING, 0, false);
+                $userid = $table->get_column_data('userid');
+
+                if (empty($userid)) {
+                    continue;
+                }
+
+                $allactivities[] = [
+                    'id' => (int)$assignment->id,
+                    'name' => format_string($assignment->name),
+                    'coursename' => format_string($assignment->fullname),
+                    'url' => (new \moodle_url('/mod/assign/view.php', ['id' => $assignment->cmid, 'action' => 'grader']))->out(false),
+                    'activitytype' => get_string('assignment', 'block_ungraded_assignments'),
+                    'cmid' => (int)$assignment->cmid,
+                ];
+            } catch (\Exception $e) {
+                // Skip assignments the user cannot access.
                 continue;
             }
-
-            $assign = new \assign($context, $cm, $course);
-            $table = new \assign_grading_table($assign, 0, ASSIGN_FILTER_REQUIRE_GRADING, 0, false);
-            $userid = $table->get_column_data('userid');
-
-            if (empty($userid)) {
-                continue;
-            }
-
-            $allactivities[] = [
-                'id' => (int)$assignment->id,
-                'name' => format_string($assignment->name),
-                'coursename' => format_string($assignment->fullname),
-                'url' => (new \moodle_url('/mod/assign/view.php', ['id' => $assignment->cmid, 'action' => 'grader']))->out(false),
-                'activitytype' => get_string('assignment', 'block_ungraded_assignments'),
-                'cmid' => (int)$assignment->cmid,
-            ];
         }
 
         $quizsql = "SELECT DISTINCT q.id, q.name, c.fullname, cm.id AS cmid, c.id AS courseid

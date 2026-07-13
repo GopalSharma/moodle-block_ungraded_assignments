@@ -33,7 +33,7 @@ $capabilities = [
             'editingteacher' => CAP_ALLOW,
         ],
     ],
-    'block/ungraded_assignment:addinstance' => [
+    'block/ungraded_assignments:addinstance' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_BLOCK,
         'archetypes' => [
